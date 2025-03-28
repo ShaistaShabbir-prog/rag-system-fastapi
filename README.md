@@ -27,7 +27,7 @@ Follow these instructions to set up the project locally.
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/yourusername/rag-document-retrieval.git
+    git clone https://github.com/ShaistaShabbir-prog/rag-system-fastapi.git
     cd rag-document-retrieval
     ```
 
