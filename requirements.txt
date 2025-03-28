@@ -1,0 +1,9 @@
+fastapi==0.115.12
+uvicorn==0.34.0
+pydantic==2.7.1
+sentence-transformers==4.0.1
+faiss-cpu==1.10.0
+openai==1.69.0
+loguru==0.6.0
+torch==2.1.0  # For using transformers from Sentence Transformers
+numpy==1.23.5  # Compatible version for NumPy
