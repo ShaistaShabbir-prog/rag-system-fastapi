@@ -2,11 +2,13 @@ version: '3.8'
 
 services:
   app:
-    build: .
-    ports:
-      - "8000:8000"  # Map the container's port 8000 to the host's port 8000
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - .:/app  # Mount the current directory to the /app directory in the container
+      - .:/RAG_Shabbir
+    ports:
+      - "8000:8000"
     environment:
-      - FAISS_INDEX_PATH=/app/faiss_index  # This is where the FAISS index will be stored
-    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+      - PYTHONPATH=/RAG_Shabbir/app
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "debug"]

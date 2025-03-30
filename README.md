@@ -1,94 +1,74 @@
-# Simplified RAG-Based Document Retrieval and Question Answering System
+# Minimal RAG System
 
-This repository contains a **Retrieval-Augmented Generation (RAG)**-based system that integrates **document retrieval** and **question answering** using **FastAPI**, **FAISS**, and **SentenceTransformers** for document embeddings. The system allows users to ingest documents, store them as embeddings, and retrieve relevant documents to generate context-aware answers.
-
----
+This project is a **Minimal Retrieval-Augmented Generation (RAG) System** built with FastAPI, FAISS, and a lightweight NLP model. The system enables document ingestion and querying to retrieve relevant documents and generate answers using a Transformer model.
 
 ## Features
-- **Document Embedding**: Uses a pre-trained embedding model (e.g., `SentenceTransformers`) to convert text documents into dense vector representations.
-- **Document Retrieval**: Implements a similarity search mechanism with **FAISS** for fast retrieval of relevant documents.
-- **Question Answering**: Uses a Large Language Model (LLM) to generate answers based on the retrieved documents.
-- **API Endpoints**:
-  - `/ingest`: Ingest documents and store their embeddings.
-  - `/query`: Accept a query, retrieve relevant documents, and generate a response.
-- **Containerized Deployment**: The application is containerized using Docker and Docker Compose for easy deployment.
+- **Document Ingestion**: Store text documents and their embeddings in FAISS.
+- **Querying**: Retrieve relevant documents and generate answers.
+- **FastAPI with Swagger UI**: Easily test APIs with an interactive UI.
+- **Dockerized Deployment**: Run the entire system in a containerized environment.
 
----
+## Installation & Running
 
-## Setup and Installation
+### Using Docker (Recommended)
 
-Follow these instructions to set up the project locally.
+1. **Pull the Docker Image:**
+   ```bash
+   docker pull shaistashabbir/rag
+   ```
 
-### Prerequisites
-- Docker and Docker Compose installed on your machine.
-- Basic knowledge of how Docker works.
-  
-### Steps to Run the Application
+2. **Run the Container:**
+   ```bash
+   docker run -p 8000:8000 shaistashabbir/rag
+   ```
+
+3. **Access the Swagger UI:**
+   Open your browser and visit:
+   ```
+   http://localhost:8000/docs
+   ```
+
+## API Endpoints
+
+### 1. Root Endpoint
+- **`GET /`**
+- Returns a welcome message.
+
+### 2. Ingest Document
+- **`POST /ingest`**
+- **Request Body:** `{ "text": "your document text" }`
+- **Response:** `{ "message": "Document ingested" }`
+
+### 3. Query System
+- **`POST /query`**
+- **Request Body:** `{ "question": "your question" }`
+- **Response:** `{ "answer": "generated answer" }`
+
+## Development Setup (Without Docker)
 
 1. **Clone the repository:**
-    ```bash
-    git clone https://github.com/ShaistaShabbir-prog/rag-system-fastapi.git
-    cd rag-document-retrieval
-    ```
+   ```bash
+   git clone https://github.com/ShaistaShabbir-prog/rag-system-fastapi.git
+   cd RAG_Shabbir
+   ```
+2. **Create a virtual environment:**
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows use `.venv\Scripts\activate`
+   ```
+3. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. **Run the application:**
+   ```bash
+   uvicorn app.main:app --host 0.0.0.0 --port 8000
+   ```
 
-2. **Build the Docker image:**
-    In the project directory (where the `Dockerfile` is located), run:
-    ```bash
-    docker-compose build
-    ```
+## Notes
+- Ensure `docker` is installed for containerized execution.
+- The system uses **FAISS** for fast document retrieval.
+- The model used is **Flan-T5 Small** for text generation.
 
-3. **Start the services using Docker Compose:**
-    This will start the FastAPI app container.
-    ```bash
-    docker-compose up
-    ```
+Enjoy using the **Minimal RAG System**! 🚀
 
-4. **Test the API:**
-    After the containers are running, open a web browser or use **Postman**/**cURL** to interact with the following endpoints:
-    - **POST /ingest**: To ingest documents. Example:
-      ```json
-      POST http://localhost:8000/ingest
-      Body:
-      {
-        "document": "This is a sample document."
-      }
-      ```
-    - **POST /query**: To submit a query. Example:
-      ```json
-      POST http://localhost:8000/query
-      Body:
-      {
-        "query": "What is this document about?"
-      }
-      ```
-
----
-
-## How It Works
-
-### 1. Document Ingestion (`/ingest` Endpoint)
-- Users submit text documents via the `/ingest` endpoint.
-- The document text is converted into an embedding using a pre-trained model (e.g., `SentenceTransformers`).
-- The embeddings are stored in **FAISS**, a fast vector search library.
-
-### 2. Query Processing (`/query` Endpoint)
-- When a user submits a query, the query is also embedded into a vector using the same embedding model.
-- **FAISS** is used to search for the top N most similar documents to the query.
-- The retrieved documents are provided as context to a **Large Language Model** (LLM), which generates a relevant answer based on the context.
-
----
-
-## Development
-
-### Dependencies
-
-- **FastAPI**: The web framework to create the API.
-- **Uvicorn**: ASGI server to run FastAPI.
-- **SentenceTransformers**: To generate embeddings from documents and queries.
-- **FAISS**: For similarity search and storing embeddings.
-- **OpenAI**: (Optional) To generate answers using a language model (if used).
-  
-You can install the dependencies manually using:
-
-```bash
-pip install -r requirements.txt
